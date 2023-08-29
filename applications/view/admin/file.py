@@ -8,7 +8,7 @@ from applications.models import Photo
 from applications.common.utils import upload as upload_curd
 from applications.AIDetector_pytorch import Detector
 
-admin_file = Blueprint('adminFile', __name__, url_prefix='/')
+admin_file = Blueprint('adminFile', __name__, url_prefix='/admin/file')
 
 
 #  图片管理

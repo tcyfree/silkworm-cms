@@ -124,7 +124,7 @@ dmypy.json
 # 迁移文件
 migrations/
 
-static/model_data/best.pt 
+static/model_data/best.pt
 static/model_data/ep185-loss0.172-val_loss0.249.pth
 static/tmp
 static/upload
