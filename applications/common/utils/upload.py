@@ -17,8 +17,12 @@ def get_photo(page, limit):
     return data, count
 
 
-def upload_one(mime, filename):
-    file_url = '/static/tmp/comp/'+filename
+def upload_one(photo, mime, filename):
+    file_url = '/_uploads/photos/'+filename
+    # file_url = photos.url(filename)
+    upload_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
+    photo.save(upload_url)
+    size = os.path.getsize(upload_url)
     photo = Photo(name=filename, href=file_url, mime=mime, size=size)
     db.session.add(photo)
     db.session.commit()

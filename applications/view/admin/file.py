@@ -46,8 +46,8 @@ def upload_api():
         print(photo)
         mime = request.files['file'].content_type
         age = request.args.get('age')
+        file_url = upload_curd.upload_one(photo, mime, photo.filename)
         pid, image_info = upload_curd.upload_two(model, photo.filename, age)
-        file_url = upload_curd.upload_one(mime, pid)
 
         res = {
             "msg": "上传成功",
