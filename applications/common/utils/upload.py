@@ -17,16 +17,8 @@ def get_photo(page, limit):
     return data, count
 
 
-def upload_one(photo, mime, filename):
-    file_url = '/_uploads/photos/'+filename
-    # Open image and compress and save
-    img = Image.open(photo)
-    img.thumbnail((400, 400))  # Adjust your size
-    upload_compress_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
-    img.save(upload_compress_url, quality=85)
-
-    size = os.path.getsize(upload_compress_url)
-    print('compress-size: ', size)
+def upload_one(mime, filename):
+    file_url = '/static/tmp/comp/'+filename
     photo = Photo(name=filename, href=file_url, mime=mime, size=size)
     db.session.add(photo)
     db.session.commit()

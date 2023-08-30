@@ -14,6 +14,7 @@ def compress_images(infile,outfile,mb=350,step=10, quality=60):
             break
         quality -= step
         image_size = os.path.getsize(outfile)/1024
+    im.thumbnail((400, 400))  # Adjust your size
 
 def predict(dataset, model, ext, age):
 
