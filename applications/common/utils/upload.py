@@ -22,10 +22,6 @@ def upload_one(photo, mime, filename):
     # file_url = photos.url(filename)
     upload_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
     photo.save(upload_url)
-    size = os.path.getsize(upload_url)
-    photo = Photo(name=filename, href=file_url, mime=mime, size=size)
-    db.session.add(photo)
-    db.session.commit()
     return file_url
 
 
@@ -33,6 +29,11 @@ def upload_two(model, filename, age):
     str(0 if age is None else age)
     upload_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
     pid, image_info = dispose(upload_url, model, filename.rsplit('.', 1)[-1], age)
+
+    photo = Photo(name=filename, href='/static/tmp/comp/' + pid, mime='', size=0)
+    db.session.add(photo)
+    db.session.commit()
+
     return pid, image_info
 
 
