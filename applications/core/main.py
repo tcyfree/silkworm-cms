@@ -6,10 +6,12 @@ from PIL import Image
 def compress_images(infile,outfile,mb=350,step=10, quality=60):
     image_size = os.path.getsize(infile)/1024
     im = Image.open(infile)
+    # 创建缩略图
+    im.thumbnail((600, 600))  # 指定缩略图尺寸
     if image_size <= mb:
         return im.save(outfile)
     while image_size > mb:
-        im.save(outfile, quality=quality)
+        im.save(outfile, quality=quality, optimize=True)
         if quality - step < 0:
             break
         quality -= step
