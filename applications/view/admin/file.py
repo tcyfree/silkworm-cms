@@ -49,14 +49,17 @@ def upload_api():
         file_url = upload_curd.upload_one(photo, mime, photo.filename)
         pid, image_info = upload_curd.upload_two(model, photo.filename, age)
 
+        serve_url = 'http://cxy.ssdlab.cn/'
         res = {
             "msg": "上传成功",
             "code": 0,
             "success": True,
             "status":1,
             "src": file_url,
-            'image_url': 'http://localhost:5003/static/upload/' + pid,
-            'draw_url': 'http://localhost:5003/static/tmp/comp/' + pid,
+            # 'image_url': 'http://localhost:5003/static/upload/' + pid,
+            # 'draw_url': 'http://localhost:5003/static/tmp/comp/' + pid,
+            'image_url': serve_url + 'static/upload/' + pid,
+            'draw_url': serve_url + 'static/tmp/comp/' + pid,
             'image_info': image_info
         }
         return jsonify(res)
