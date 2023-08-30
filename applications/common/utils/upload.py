@@ -8,7 +8,7 @@ from applications.schemas import PhotoOutSchema
 from applications.common.curd import model_to_dicts
 
 from applications.core.main import c_main as dispose
-
+from PIL import Image
 
 def get_photo(page, limit):
     photo = Photo.query.order_by(desc(Photo.create_time)).paginate(page=page, per_page=limit, error_out=False)
@@ -19,10 +19,14 @@ def get_photo(page, limit):
 
 def upload_one(photo, mime, filename):
     file_url = '/_uploads/photos/'+filename
-    # file_url = photos.url(filename)
-    upload_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
-    photo.save(upload_url)
-    size = os.path.getsize(upload_url)
+    # Open image and compress and save
+    img = Image.open(photo)
+    img.thumbnail((400, 400))  # Adjust your size
+    upload_compress_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
+    img.save(upload_compress_url, quality=85)
+
+    size = os.path.getsize(upload_compress_url)
+    print('compress-size: ', size)
     photo = Photo(name=filename, href=file_url, mime=mime, size=size)
     db.session.add(photo)
     db.session.commit()
