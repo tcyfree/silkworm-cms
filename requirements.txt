@@ -12,3 +12,4 @@ Flask-Mail
 Pillow
 validators
 cryptography
+flask-cors
