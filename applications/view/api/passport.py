@@ -1,10 +1,11 @@
 from flask import Blueprint, session, request
-from flask_login import current_user, login_user, login_required, logout_user
+from flask_login import current_user, login_user, logout_user
 
 from applications.common.admin_log import login_log
 from applications.common.utils.http import fail_api, success_api
 from applications.models import User
 from applications.common.utils.validate import str_escape
+from applications.extensions import db
 
 bp = Blueprint('passport', __name__, url_prefix='/passport')
 
@@ -61,3 +62,20 @@ def logout():
     logout_user()
     # session.pop('permissions') => error: KeyError: 'permissions'
     return success_api(msg="注销成功！")
+
+@bp.post('/add')
+def add():
+    req_json = request.get_json(force=True)
+    username = str_escape(req_json.get('username'))
+    password = str_escape(req_json.get('password'))
+
+    if not username or not password:
+        return fail_api(msg="账号密码不得为空")
+
+    if bool(User.query.filter_by(username=username).count()):
+        return fail_api(msg="账号已经存在")
+    user = User(username=username, enable=1)
+    user.set_password(password)
+    db.session.add(user)
+    db.session.commit()
+    return success_api(msg="增加成功")
