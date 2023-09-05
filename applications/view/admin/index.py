@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
+from applications.models import Photo
 
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -17,4 +18,5 @@ def index():
 @admin_bp.get('/welcome')
 @login_required
 def welcome():
-    return render_template('admin/console/console.html')
+    count = Photo.query.count()
+    return render_template('admin/console/console.html', count=count)
