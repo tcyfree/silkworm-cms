@@ -9,6 +9,8 @@ class Photo(db.Model):
     href = db.Column(db.String(255))
     address = db.Column(db.String(128))
     remark = db.Column(db.String(128))
+    username = db.Column(db.String(128))
+    reply_username = db.Column(db.String(128))
     reply = db.Column(db.String(128))
     mime = db.Column(db.String(512))
     size = db.Column(db.String(30))

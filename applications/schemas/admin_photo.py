@@ -12,4 +12,6 @@ class PhotoOutSchema(ma.Schema):
     reply = fields.Str()
     size = fields.Str()
     ext = fields.Str()
+    username = fields.Str()
+    reply_username = fields.Str()
     create_time = fields.DateTime()
