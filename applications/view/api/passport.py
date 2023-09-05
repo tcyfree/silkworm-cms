@@ -1,4 +1,4 @@
-from flask import Blueprint, session, request
+from flask import Blueprint, session, request, jsonify
 from flask_login import current_user, login_user, logout_user
 
 from applications.common.admin_log import login_log
@@ -44,13 +44,21 @@ def login_post():
                 user_power.append(p.code)
         session['permissions'] = user_power
         # # 角色存入session
-        # roles = []
-        # for role in current_user.role.all():
-        #     roles.append(role.id)
-        # session['role'] = [roles]
+        roles = []
+        for role in current_user.role.all():
+            roles.append(role.name)
+        res = {
+        'msg': '登录成功!',
+        'code': 0,
+        'user': {
+            'username': user.username,
+            'user_id': user.id,
+            'role_name': roles[0] if bool(roles) else '普通用户'
 
-
-        return success_api(msg="登录成功!")
+        },
+        'success': True
+        }
+        return jsonify(res)
     login_log(request, uid=user.id, is_access=False)
     return fail_api(msg="用户名或密码错误")
 
