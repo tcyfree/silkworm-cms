@@ -45,9 +45,11 @@ def upload_api():
         photo = request.files['file']
         print(photo)
         mime = request.files['file'].content_type
-        age = request.args.get('age')
+        age = request.args.get('age', 0)
+        address = request.args.get('address', '')
+        remark = request.args.get('remark', '')
         file_url = upload_curd.upload_one(photo, mime, photo.filename)
-        pid, image_info = upload_curd.upload_two(model, photo.filename, age)
+        pid, image_info = upload_curd.upload_two(model, photo.filename, age, address, remark)
 
         serve_url = 'http://cxy.ssdlab.cn/'
         res = {

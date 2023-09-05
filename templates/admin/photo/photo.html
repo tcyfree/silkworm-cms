@@ -12,12 +12,6 @@
 </div>
 
 <script type="text/html" id="toolbar">
-    {% if authorize("admin:file:add") %}
-        <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-add-1"></i>
-            新增
-        </button>
-    {% endif %}
     {% if authorize("admin:file:delete") %}
         <button class="pear-btn pear-btn-sm" lay-event="batchRemove">
             <i class="layui-icon layui-icon-delete"></i>
@@ -28,8 +22,8 @@
 
 <script type="text/html" id="user-bar">
     {% if authorize("admin:file:delete") %}
-        <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove"><i
-                class="layui-icon layui-icon-delete"></i></button>
+        <button class="pear-btn pear-btn-success pear-btn-sm" lay-event="remove"><i
+                class="layui-icon layui-icon-reply-fill">回复</i></button>
     {% endif %}
 </script>
 <script type="text/html" id="file-uploadTime">
@@ -49,7 +43,7 @@
         {
           field: 'id',
           title: 'ID',
-          sort: true,
+          hide: true,
           align: 'center',
           unresize: true,
           width: 80
@@ -62,7 +56,7 @@
         },
         {
           field: 'href',
-          title: '图片',
+          title: '检测图片',
           unresize: true,
           align: 'center',
           templet: function (d) {
@@ -74,19 +68,31 @@
         },
         {
           field: 'mime',
-          title: 'mime类型',
+          title: '检测信息',
           unresize: true,
           align: 'center'
         },
         {
-          field: 'size',
-          title: '文件大小',
+          field: 'address',
+          title: '地址',
+          unresize: true,
+          align: 'center'
+        },
+        {
+          field: 'remark',
+          title: '补充描述',
+          unresize: true,
+          align: 'center'
+        },
+        {
+          field: 'reply',
+          title: '专家回复',
           unresize: true,
           align: 'center'
         },
         {
           field: 'create_time',
-          title: '创建时间',
+          title: '检测时间',
           templet: '#file-uploadTime',
           unresize: true,
           align: 'center'
@@ -111,7 +117,7 @@
       defaultToolbar: [{
         layEvent: 'refresh',
         icon: 'layui-icon-refresh',
-      }, 'filter', 'print', 'exports']
+      }]
     })
 
     table.on('tool(dataTable)', function (obj) {

@@ -1,5 +1,5 @@
 import os
-from flask import current_app
+from flask import current_app, jsonify
 from sqlalchemy import desc
 from applications.extensions import db
 from applications.extensions.init_upload import photos
@@ -25,12 +25,12 @@ def upload_one(photo, mime, filename):
     return file_url
 
 
-def upload_two(model, filename, age):
+def upload_two(model, filename, age, address, remark):
     str(0 if age is None else age)
     upload_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
     pid, image_info = dispose(upload_url, model, filename.rsplit('.', 1)[-1], age)
 
-    photo = Photo(name=filename, href='/static/tmp/comp/' + pid, mime='', size=0)
+    photo = Photo(name=filename, href='/static/tmp/comp/' + pid, mime=jsonify(image_info), size=0, address=address, remark=remark)
     db.session.add(photo)
     db.session.commit()
 
