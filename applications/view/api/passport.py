@@ -6,6 +6,7 @@ from applications.common.utils.http import fail_api, success_api
 from applications.models import User
 from applications.common.utils.validate import str_escape
 from applications.extensions import db
+from applications.models import Role
 
 bp = Blueprint('passport', __name__, url_prefix='/passport')
 
@@ -85,5 +86,8 @@ def add():
     user = User(username=username, enable=1)
     user.set_password(password)
     db.session.add(user)
+    roles = Role.query.filter(Role.id.in_([2])).all()
+    for r in roles:
+        user.role.append(r)
     db.session.commit()
     return success_api(msg="增加成功")
