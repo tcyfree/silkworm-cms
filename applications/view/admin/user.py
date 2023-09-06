@@ -52,7 +52,7 @@ def data():
             'realname': user.realname,
             'enable': user.enable,
             'create_at': user.create_at,
-            'update_at': user.update_at,
+            'update_at': user.update_at.strftime('%Y-%m-%d %H:%M:%S'),
             'dept_name': dept.dept_name if dept else None
         } for user, dept in query.items],
         count=query.total)

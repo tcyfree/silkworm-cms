@@ -11,17 +11,17 @@
     </div>
 </div>
 
-<script type="text/html" id="toolbar">
+<!-- <script type="text/html" id="toolbar">
     {% if authorize("admin:file:delete") %}
         <button class="pear-btn pear-btn-sm" lay-event="batchRemove">
             <i class="layui-icon layui-icon-delete"></i>
             删除
         </button>
     {% endif %}
-</script>
+</script> -->
 
 <script type="text/html" id="user-bar">
-    {% if authorize("admin:file:delete") %}
+    {% if authorize("admin:file:edit") %}
         <button class="pear-btn pear-btn-success pear-btn-sm" lay-event="remove"><i
                 class="layui-icon layui-icon-reply-fill">回复</i></button>
     {% endif %}
@@ -35,11 +35,9 @@
     let table = layui.table
     let form = layui.form
     let $ = layui.jquery
+    let MODULE_PATH = '/'
     let cols = [
       [
-        {
-          type: 'checkbox'
-        },
         {
           field: 'id',
           title: 'ID',
@@ -47,12 +45,6 @@
           align: 'center',
           unresize: true,
           width: 80
-        },
-        {
-          field: 'name',
-          title: '文件名称',
-          unresize: true,
-          align: 'center'
         },
         {
           field: 'href',
@@ -96,7 +88,6 @@
           templet: '#file-uploadTime',
           unresize: true,
           align: 'center',
-          hide: true
         },
         {
           title: '操作',
@@ -162,34 +153,13 @@
     }
 
     window.remove = function (obj) {
-      layer.confirm('确定要删除该图片', {
-        icon: 3,
-        title: '提示'
-      }, function (index) {
-        layer.close(index)
-        let loading = layer.load()
-        $.ajax({
-          url: 'delete',
-          data: { id: obj.data['id'] },
-          dataType: 'json',
-          type: 'POST',
-          success: function (res) {
-            layer.close(loading)
-            if (res.success) {
-              layer.msg(res.msg, {
-                icon: 1,
-                time: 1000
-              }, function () {
-                obj.del()
-              })
-            } else {
-              layer.msg(res.msg, {
-                icon: 2,
-                time: 1000
-              })
-            }
-          }
-        })
+      console.log(obj)
+      layer.open({
+        type: 2,
+        title: '回复',
+        shade: 0.1,
+        area: ['550px', '500px'],
+        content: MODULE_PATH + 'edit/' + obj.data['id']
       })
     }
 

@@ -7,6 +7,8 @@ from applications.extensions import db
 from applications.models import Photo
 from applications.common.utils import upload as upload_curd
 from applications.AIDetector_pytorch import Detector
+from applications.common import curd
+from applications.common.utils.validate import str_escape
 
 # compatible mini and web terminals
 admin_file = Blueprint('adminFile', __name__, url_prefix='/')
@@ -108,3 +110,23 @@ def batch_remove():
     else:
         return fail_api(msg="删除失败")
 
+#  编辑用户
+@admin_file.get('/edit/<int:id>')
+@authorize("admin:file:edit", log=True)
+def edit(id):
+    photo = curd.get_one_by_id(Photo, id)
+    
+    return render_template('admin/photo/edit.html', photo=photo)
+
+
+#  编辑用户
+@admin_file.put('/update')
+@authorize("admin:file:edit", log=True)
+def update():
+    req_json = request.get_json(force=True)
+    id = str_escape(req_json.get("userId"))
+    reply = str_escape(req_json.get('reply'))
+    Photo.query.filter_by(id=id).update({'reply': reply})
+
+    db.session.commit()
+    return success_api(msg="更新成功")
