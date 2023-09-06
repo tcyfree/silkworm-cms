@@ -6,6 +6,7 @@ from applications.extensions.init_upload import photos
 from applications.models import Photo
 from applications.schemas import PhotoOutSchema
 from applications.common.curd import model_to_dicts
+import json
 
 from applications.core.main import c_main as dispose
 from PIL import Image
@@ -30,7 +31,7 @@ def upload_two(model, filename, age, address, remark):
     upload_url = os.path.join(current_app.config.get("UPLOADED_PHOTOS_DEST"), filename)
     pid, image_info = dispose(upload_url, model, filename.rsplit('.', 1)[-1], age)
 
-    photo = Photo(name=filename, href='/static/tmp/comp/' + pid, mime=jsonify(image_info), size=0, address=address, remark=remark)
+    photo = Photo(name=filename, href='/static/tmp/comp/' + pid, mime=json.dumps(image_info, ensure_ascii=False), size=0, address=address, remark=remark)
     db.session.add(photo)
     db.session.commit()
 
