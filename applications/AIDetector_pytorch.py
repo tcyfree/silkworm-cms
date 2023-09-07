@@ -130,62 +130,65 @@ class Detector(object):
                     count += 1
 
         total = virus_label + fungus_label + healthy_label
-        virus_rate = float(format(float(virus_label) / float(total), '.2f'))
-        fungus_rate = float(format(float(fungus_label) / float(total), '.2f'))
-        healthy_rate = float(format(float(healthy_label) / float(total), '.2f'))
-
-        virus_per = '%.f%%' % (virus_rate * 100)
-        fungus_per = '%.f%%' % (fungus_rate * 100)
-        healthy_per = '%.f%%' % (healthy_rate * 100)
-
-        if healthy_rate == 1:
-            image_info_many[str(healthy_per)] = ["健康", "无"]
+        if total < 5:
+            image_info_many[str(0)] = ['您的照片中的桑蚕数量少于5只，请考虑再次拍摄。数量太少可能会影响我们对疾病的诊断。']
         else:
-            if virus_label > 0:
-                if age == "0":
-                    if virus_rate < 0.3:
-                        image_info_many[str(virus_per)] = ["疑似为血液性脓病",
-                                                           "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.每天用防僵粉或新鲜石灰粉对蚕体蚕座消毒两次。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.稀养，加强通风换气，避免高温多湿。\n5.查明病原来源，避免再次感染。"]
-                    else:
-                        image_info_many[str(virus_per)] = ["疑似为血液性脓病",
-                                                          "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
-                if age == "1":
-                    if virus_rate < 0.4:
-                        image_info_many[str(virus_per)] = ["疑似为血液性脓病",
-                                                           "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n2.每天用防僵粉或新鲜石灰粉对蚕体蚕座消毒两次。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.稀养，加强通风换气，避免高温多湿。\n5.查明病原来源，避免再次感染。"]
-                    else:
-                        image_info_many[str(virus_per)] = ["疑似为血液性脓病",
-                                                           "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
-                if age == "2":
-                    if virus_rate < 0.5:
-                        image_info_many[str(virus_per)] = ["疑似为血液性脓病",
-                                                           "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.每天用防僵粉或新鲜石灰粉对蚕体蚕座消毒两次。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.稀养，加强通风换气，避免高温多湿。\n5.查明病原来源，避免再次感染。"]
-                    else:
-                        image_info_many[str(virus_per)] = ["疑似为血液性脓病",
-                                                           "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
+            virus_rate = float(format(float(virus_label) / float(total), '.2f'))
+            fungus_rate = float(format(float(fungus_label) / float(total), '.2f'))
+            healthy_rate = float(format(float(healthy_label) / float(total), '.2f'))
 
-            if fungus_label > 0:
-                if age == "0":
-                    if fungus_rate < 0.1:
-                        image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
-                                                            "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.给桑前用新鲜石灰粉对蚕体蚕座消毒。\n3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.良桑饱食,增强蚕体质。\n5.查明病原来源，避免再次感染。"]
-                    else:
-                        image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
-                                                            "1.全部淘汰，进行无害化处理。\n 2.对蚕室蚕具和养蚕环境进行彻底消毒。\n 3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
-                if age == "1":
-                    if fungus_rate < 0.2:
-                        image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
-                                                            "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.给桑前用新鲜石灰粉对蚕体蚕座消毒。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.良桑饱食，增强蚕体质。\n5.查明病原来源，避免再次感染。"]
-                    else:
-                        image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+            virus_per = '%.f%%' % (virus_rate * 100)
+            fungus_per = '%.f%%' % (fungus_rate * 100)
+            healthy_per = '%.f%%' % (healthy_rate * 100)
+
+            if healthy_rate == 1:
+                image_info_many[str(healthy_per)] = ["健康", "无"]
+            else:
+                if virus_label > 0:
+                    if age == "0":
+                        if virus_rate < 0.3:
+                            image_info_many[str(virus_per)] = ["疑似为血液性脓病",
+                                                            "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.每天用防僵粉或新鲜石灰粉对蚕体蚕座消毒两次。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.稀养，加强通风换气，避免高温多湿。\n5.查明病原来源，避免再次感染。"]
+                        else:
+                            image_info_many[str(virus_per)] = ["疑似为血液性脓病",
                                                             "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
-                if age == "2":
-                    if fungus_rate < 0.3:
-                        image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
-                                                            "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.给桑前用新鲜石灰粉对蚕体蚕座消毒。\n3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.良桑饱食，增强蚕体质。\n5.查明病原来源，避免再次感染。"]
-                    else:
-                        image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                    if age == "1":
+                        if virus_rate < 0.4:
+                            image_info_many[str(virus_per)] = ["疑似为血液性脓病",
+                                                            "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n2.每天用防僵粉或新鲜石灰粉对蚕体蚕座消毒两次。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.稀养，加强通风换气，避免高温多湿。\n5.查明病原来源，避免再次感染。"]
+                        else:
+                            image_info_many[str(virus_per)] = ["疑似为血液性脓病",
                                                             "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
+                    if age == "2":
+                        if virus_rate < 0.5:
+                            image_info_many[str(virus_per)] = ["疑似为血液性脓病",
+                                                            "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.每天用防僵粉或新鲜石灰粉对蚕体蚕座消毒两次。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.稀养，加强通风换气，避免高温多湿。\n5.查明病原来源，避免再次感染。"]
+                        else:
+                            image_info_many[str(virus_per)] = ["疑似为血液性脓病",
+                                                            "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
+
+                if fungus_label > 0:
+                    if age == "0":
+                        if fungus_rate < 0.1:
+                            image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                                                                "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.给桑前用新鲜石灰粉对蚕体蚕座消毒。\n3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.良桑饱食,增强蚕体质。\n5.查明病原来源，避免再次感染。"]
+                        else:
+                            image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                                                                "1.全部淘汰，进行无害化处理。\n 2.对蚕室蚕具和养蚕环境进行彻底消毒。\n 3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
+                    if age == "1":
+                        if fungus_rate < 0.2:
+                            image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                                                                "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.给桑前用新鲜石灰粉对蚕体蚕座消毒。\n 3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.良桑饱食，增强蚕体质。\n5.查明病原来源，避免再次感染。"]
+                        else:
+                            image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                                                                "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
+                    if age == "2":
+                        if fungus_rate < 0.3:
+                            image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                                                                "1.巡视蚕座，拈除病弱小蚕并无害化处理。\n 2.给桑前用新鲜石灰粉对蚕体蚕座消毒。\n3.用消毒液对蚕室蚕具及周围环境进行消毒。\n4.良桑饱食，增强蚕体质。\n5.查明病原来源，避免再次感染。"]
+                        else:
+                            image_info_many[str(fungus_per)] = ["疑似为微粒子疾病",
+                                                                "1.全部淘汰，进行无害化处理。\n2.对蚕室蚕具和养蚕环境进行彻底消毒。\n3.查明病原来源，避免再次感染。\n4.重新饲养下一批蚕。"]
         if total <= 5:
             im = self.plot_bboxes(im, pred_boxes)
             return im, image_info_many
