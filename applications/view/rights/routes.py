@@ -126,7 +126,7 @@ def menu():
                 menu_dict[_dict['parent_id']].append(_dict)
         return jsonify(sorted(menu_dict.get(0), key=lambda item: item['sort']))
     else:
-        powers = Power.query.all()
+        powers = Power.query.filter(Power.enable == 1).all()
         power_schema = PowerOutSchema(many=True)  # 用已继承 ma.ModelSchema 类的自定制类生成序列化类
         power_dict = power_schema.dump(powers)  # 生成可序列化对象
         power_dict.sort(key=lambda x: (x['parent_id'], x['id']), reverse=True)
