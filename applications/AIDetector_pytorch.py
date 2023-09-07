@@ -131,7 +131,7 @@ class Detector(object):
 
         total = virus_label + fungus_label + healthy_label
         if total < 5:
-            image_info_many[str(0)] = ['您的照片中的桑蚕数量少于5只，请考虑再次拍摄。数量太少可能会影响我们对疾病的诊断。']
+            image_info_many[str('桑蚕数量不足')] = ['','您的照片中的桑蚕数量少于5只，请考虑再次拍摄。数量太少可能会影响我们对疾病的诊断。']
         else:
             virus_rate = float(format(float(virus_label) / float(total), '.2f'))
             fungus_rate = float(format(float(fungus_label) / float(total), '.2f'))
